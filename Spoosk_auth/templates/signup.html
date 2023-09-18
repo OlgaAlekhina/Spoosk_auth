@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Login
+{% endblock title %}
+
+{% block content %}
+
+{% if not user.is_authenticated %}
+
+<form method="post" method="POST" id="signup-form">
+    {% csrf_token %}
+    <div>
+        <input id="username" placeholder="Name" class="user-name">
+    </div>
+    <div>
+        <input type="password" id="password" placeholder="Password">
+    </div>
+    <div id="results"></div>
+    <input type="submit" value="Login">
+</form>
+
+<div id="response"></div>
+
+{% else %}
+
+<h1>Wellcome, {{request.user}}!</h1>
+
+{% endif %}
+
+<script src="{% static 'accounts.js' %}"></script>
+
+{% endblock content %}
