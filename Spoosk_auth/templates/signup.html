@@ -20,10 +20,10 @@ Auth page
     <input type="submit" value="Signup">
 </form>
 
-<form method="post" method="POST" id="login-form">
+<form method="post" method="POST" id="login-form" style="margin-top: 40px;">
     {% csrf_token %}
     <div>
-        <input id="usermail" placeholder="Email" class="user-name">
+        <input id="user_mail" placeholder="Email" class="user-name">
     </div>
     <div>
         <input type="password" id="login_password" placeholder="Password">

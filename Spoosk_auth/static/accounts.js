@@ -1,11 +1,11 @@
-// Submit credentials on submit
+// Signup submit
 $('#signup-form').on('submit', function(event){
     event.preventDefault();
     console.log("form submitted!")  // sanity check
     user_signup();
 });
 
-// AJAX for login
+// AJAX for signup
 function user_signup() {
     console.log("user_signup is working!") // sanity check
     $.ajax({
@@ -24,13 +24,47 @@ function user_signup() {
 
         // handle a non-successful response
         error : function(json) {
-            $('#results').html("<div>Oops! We have encountered an error: "+json.responseJSON.error+
+            $('#results').html("<div>"+json.responseJSON.error+
                 "</div>"); // add the error to the dom
             console.log(json.status + ": " + json.responseText); // provide a bit more info about the error to the console
         }
     });
 };
 
+// Login submit
+$('#login-form').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!")  // sanity check
+    user_login();
+});
+
+// AJAX for login
+function user_login() {
+    console.log("user_login is working!") // sanity check
+    $.ajax({
+        url : "login_endpoint", // the endpoint
+        type : "POST", // http method
+        data : { user_mail : $('#user_mail').val(), login_password : $('#login_password').val() }, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+            $('#user_mail').val(''); // remove the value from the input
+            $('#login_password').val(''); // remove the value from the input
+            console.log(json);
+            $("#response").html("<strong>Вы успешно авторизовались!</strong>");
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(json) {
+            $('#login_results').html("<div>"+json.responseJSON.error+
+                "</div>"); // add the error to the dom
+            console.log(json.status + ": " + json.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
+
+// makes forms protected from CSRF
 $(function() {
 
 
