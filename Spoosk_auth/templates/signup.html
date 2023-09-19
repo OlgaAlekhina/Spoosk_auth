@@ -38,6 +38,8 @@ Auth page
 
 <h1>Wellcome, {{request.user}}!</h1>
 
+<button> <a href="{% url 'logout' %}">Выйти</a> </button>
+
 {% endif %}
 
 <script src="{% static 'accounts.js' %}"></script>

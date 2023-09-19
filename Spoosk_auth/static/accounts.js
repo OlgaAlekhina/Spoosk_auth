@@ -53,6 +53,7 @@ function user_login() {
             console.log(json);
             $("#response").html("<strong>Вы успешно авторизовались!</strong>");
             console.log("success"); // another sanity check
+            location.reload();
         },
 
         // handle a non-successful response

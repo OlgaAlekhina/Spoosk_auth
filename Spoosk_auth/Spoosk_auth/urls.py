@@ -17,10 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts.views import signup, signup_endpoint, login_endpoint
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup', signup, name='signup'),
+    path('logout', LogoutView.as_view(), name='logout'),
     path('signup_endpoint', signup_endpoint, name='signup_endpoint'),
     path('login_endpoint', login_endpoint, name='login_endpoint'),
     # path('/', include('accounts.urls')),
