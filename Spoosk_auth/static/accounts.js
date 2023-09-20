@@ -11,14 +11,14 @@ function user_signup() {
     $.ajax({
         url : "signup_endpoint", // the endpoint
         type : "POST", // http method
-        data : { username : $('#username').val(), password : $('#password').val() }, // data sent with the post request
+        data : { username : $('#username').val(), usermail : $('#usermail').val(), password : $('#password').val() }, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
-            $('#username').val(''); // remove the value from the input
+            $('#usermail').val(''); // remove the value from the input
             $('#password').val(''); // remove the value from the input
             console.log(json);
-            $("#response").html("<li><strong>Пользователь "+json.username+" был успешно зарегистрирован!</strong>");
+            $("#response").html("<strong>Check your email to finish registration!");
             console.log("success"); // another sanity check
         },
 

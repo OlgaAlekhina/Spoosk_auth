@@ -11,12 +11,15 @@ Auth page
 <form method="post" method="POST" id="signup-form">
     {% csrf_token %}
     <div>
-        <input id="username" placeholder="Name" class="user-name">
+        <input id="username" value="12345" class="user-name">
     </div>
+    <div>
+        <input id="usermail" placeholder="Email" class="user-name">
+    </div>
+    <div id="results"></div>
     <div>
         <input type="password" id="password" placeholder="Password">
     </div>
-    <div id="results"></div>
     <input type="submit" value="Signup">
 </form>
 

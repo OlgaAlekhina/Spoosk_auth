@@ -3,6 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 import json
 from django.contrib.auth import login
+import random
+
 
 def signup(request):
     return render(request, 'signup.html', {})
@@ -11,26 +13,15 @@ def signup(request):
 # обработка запроса на регистрацию
 def signup_endpoint(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = f'{random.randrange(10000000000)}'
+        usermail = request.POST.get('usermail')
         password = request.POST.get('password')
-        response_data = {}
-
-        try:
-            user = User(username=username, password=password)
+        if User.objects.filter(email=usermail).exists():
+            return JsonResponse({"error": "User with such email address already exists!"}, status=403)
+        else:
+            user = User(username=username, password=password, email=usermail)
             user.save()
-
-            response_data['result'] = 'Signup user successful!'
-            response_data['username'] = user.username
-            response_data['password'] = user.password
-
-            return HttpResponse(
-                json.dumps(response_data),
-                content_type="application/json"
-            )
-
-        except:
-            return JsonResponse({"error": "This username is already taken!"}, status=403)
-
+            return JsonResponse({"success": "Check your email to finish registration!"}, status=200)
     else:
         return render(request, 'test.html', {})
 
