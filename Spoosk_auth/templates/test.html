@@ -6,5 +6,12 @@
 </head>
 <body>
 <h1>TestTestTestTestTest</h1>
+
+{% if user.is_authenticated %}
+
+<h1>Вы успешно зарегистрировались и авторизовались!</h1>
+
+{% endif %}
+
 </body>
 </html>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'six',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,11 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SITE_ID = 1
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'olga-olechka-5'
+EMAIL_HOST_PASSWORD = 'dqmspldeqqeeblzy'
+EMAIL_USE_SSL = True
+SERVER_EMAIL = 'olga-olechka-5'
+DEFAULT_FROM_EMAIL = 'olga-olechka-5@yandex.ru'
