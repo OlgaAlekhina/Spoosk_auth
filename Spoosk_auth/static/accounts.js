@@ -65,6 +65,38 @@ function user_login() {
     });
 };
 
+// Reset password request submit
+$('#reset-request').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!")  // sanity check
+    reset_request();
+});
+
+// AJAX for reset password request
+function reset_request() {
+    console.log("reset_request is working!") // sanity check
+    $.ajax({
+        url : "reset_request", // the endpoint
+        type : "POST", // http method
+        data : { user_mail : $('#reset_mail').val() }, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+            $('#reset_mail').val(''); // remove the value from the input
+            console.log(json);
+            $("#response").html("<strong>Check your email for password reset confirmation!</strong>");
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(json) {
+            $('#reset_results').html("<div>"+json.responseJSON.error+
+                "</div>"); // add the error to the dom
+            console.log(json.status + ": " + json.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
+
 // makes forms protected from CSRF
 $(function() {
 

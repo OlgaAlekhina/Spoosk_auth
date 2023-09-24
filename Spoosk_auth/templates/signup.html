@@ -8,7 +8,7 @@ Auth page
 
 {% if not user.is_authenticated %}
 
-<form method="post" method="POST" id="signup-form">
+<form method="POST" id="signup-form">
     {% csrf_token %}
     <div>
         <input type="hidden" id="username" value="12345" class="user-name">
@@ -23,7 +23,7 @@ Auth page
     <input type="submit" value="Signup">
 </form>
 
-<form method="post" method="POST" id="login-form" style="margin-top: 40px;">
+<form method="POST" id="login-form" style="margin-top: 40px;">
     {% csrf_token %}
     <div>
         <input id="user_mail" placeholder="Email" class="user-name">
@@ -36,6 +36,15 @@ Auth page
 </form>
 
 <div id="response"></div>
+
+<form method="POST" id="reset-request" style="margin-top: 40px;">
+    {% csrf_token %}
+    <div>
+        <input id="reset_mail" placeholder="Email" class="user-name">
+    </div>
+    <div id="reset_results"></div>
+    <input type="submit" value="Reset password">
+</form>
 
 {% else %}
 

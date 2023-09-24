@@ -25,7 +25,7 @@ def signup_endpoint(request):
         if User.objects.filter(email=usermail).exists():
             return JsonResponse({"error": "User with such email address already exists!"}, status=403)
         else:
-            user = User(username=username, password=password, email=usermail)
+            user = User.objects.create_user(username=username, password=password, email=usermail)
             user.is_active = False
             user.save()
             msg = EmailMultiAlternatives(
@@ -89,3 +89,47 @@ def login_endpoint(request):
             return JsonResponse({"error": "There is no user with such credentials!"}, status=403)
     else:
         return render(request, 'test.html', {})
+
+
+# запрос на смену пароля
+def reset_request(request):
+    if request.method == 'POST':
+        usermail = request.POST.get('user_mail')
+        user = User.objects.filter(email=usermail).first()
+        if user:
+            msg = EmailMultiAlternatives(
+                subject='Восстановление пароля на сайте Spoosk',
+                from_email='olga-olechka-5@yandex.ru',
+                to=[user.email, ]
+            )
+            html_content = render_to_string(
+                'reset_confirmation.html',
+                {'domain': get_current_site(request).domain,
+                 'user': user,
+                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                 'token': user_token.make_token(user),
+                 'protocol': 'https' if request.is_secure() else 'http'}
+            )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            return JsonResponse({"success": "Check your email for password reset confirmation!"}, status=200)
+        else:
+            return JsonResponse({"error": "There is no user with such email address!"}, status=403)
+    else:
+        return render(request, 'test.html', {})
+
+
+#  с подтверждением по мэйлу
+def reset_confirmation(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+    if user is not None and user_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return render(request, 'test.html', {})
+    else:
+        return render(request, 'link_expired.html', {})
